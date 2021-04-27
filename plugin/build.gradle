@@ -1,0 +1,110 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion ANDROID_COMPILE_SDK_VERSION as int
+
+    defaultConfig {
+        minSdkVersion ANDROID_MIN_SDK_VERSION as int
+        targetSdkVersion ANDROID_TARGET_SDK_VERSION as int
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
+//        multiDexEnabled true
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+        // for androidx close warning
+        disable 'GoogleAppIndexingWarning'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        encoding "UTF-8"
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    android.libraryVariants.all { variant ->
+        def defaultName = projectDir.name
+        def buildType = variant.buildType.name
+        if (buildType == 'debug') {
+            variant.outputs.all {
+                outputFileName = hasProperty('POM_ARTIFACT_ID') ? POM_ARTIFACT_ID : defaultName + "-${buildType}-${System.currentTimeMillis()}" + '.aar'
+            }
+        } else {
+//            variant.outputs.all {
+//                outputFileName = hasProperty('POM_ARTIFACT_ID') ? POM_ARTIFACT_ID : defaultName + "-${defaultConfig.versionName.replace('-SNAPSHOT', '')}" + '.aar'
+//            }
+        }
+    }
+}
+
+dependencies {
+    // implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // test start
+    // Junit
+    testImplementation test_depends.junit,
+            // Mockito
+            test_depends.mockito_core,
+            // Robolectric
+            test_depends.robolectric,
+            test_depends.androidx_test_core,
+            // deprecated
+//            test_depends.robolectric_shadows_support_v4,
+            // EasyMock
+            test_depends.easymock,
+            // PowerMock
+            test_depends.powermock_core,
+            test_depends.powermock_module_junit4,
+            // PowerMock + EasyMock extension
+            test_depends.powermock_api_easymock
+
+    //    androidTestCompile android_test_depends.robotium_solo
+    // test end
+
+    implementation depends_kotlin.kotlin_stdlib
+    compileOnly depends_android_x.androidx_core_core_ktx
+    compileOnly depends_android_x.androidx_annotation
+//            depends_android_x.androidx_appcompat,
+//            depends_android_x.androidx_recyclerview,
+//            depends_android_x.androidx_cardview,
+//            depends_android_x.com_google_android_material_material,
+//            depends_android_x.androidx_legacy_support_v4
+
+//    api depends_android_x.com_google_android_material_material,
+//            depends_android_x.androidx_appcompat
+
+    // you can use compileOnly for only compile
+//    compileOnly depends.gson
+    if (isReleaseBuild()) {
+        //todo release depends
+    } else {
+        //todo snapshot depends
+    }
+}
+
+// uploadArchives
+apply from: rootProject.file("gradle/maven/nexusAndroidKotlinUpload.gradle")
+// jacoco android library
+//apply from: rootProject.file("gradle/jacoco/jacoco-android-library.gradle")
+// checkstyle android library
+//apply from: rootProject.file("gradle/checkstyle/checkstyle-android-library.gradle")

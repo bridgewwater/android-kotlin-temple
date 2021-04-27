@@ -1,0 +1,52 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+apply from: rootProject.file("package.gradle")
+apply from: rootProject.file("gradle/utils.gradle")
+
+buildscript {
+    repositories {
+//        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+//        jcenter()
+        google()
+    }
+
+    ext.kotlin_version = '1.4.32'
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18"
+//        classpath 'com.novoda:bintray-release:0.9.2'
+//        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1"
+//        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+
+    repositories {
+        // for custom android repository
+//        maven { url LIB_CUSTOM_ANDROID_REPOSITORY_URL }
+
+        // for business repository
+//        if (isReleaseBuild()) {
+//            maven { url REPO_RELEASE_REPOSITORY_URL }
+//        } else {
+//            maven { url REPO_SNAPSHOT_REPOSITORY_URL }
+//        }
+        // public java and android repository
+//        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+        // jcenter()
+        google()
+    }
+
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
