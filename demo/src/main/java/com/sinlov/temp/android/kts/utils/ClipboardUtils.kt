@@ -40,7 +40,7 @@ fun clipboardUtilsItem(context: Context, @IntRange(from = 0, to = 10) count: Int
     } else primaryClip.getItemAt(count).text
 }
 
-fun clipboardUtilsLabel(context: Context): String? {
+fun clipboardUtilsLabel(context: Context): String {
     val cmb = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val primaryClip = cmb.primaryClip ?: return ""
     val description = primaryClip.description ?: return ""

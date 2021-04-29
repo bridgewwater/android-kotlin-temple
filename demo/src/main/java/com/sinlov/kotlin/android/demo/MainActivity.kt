@@ -74,8 +74,9 @@ class MainActivity : AbsTemplateActivity() {
                 .request(NeedPermissionCall(this))
     }
 
-    private class NeedPermissionCall(private var mainActivity: MainActivity) : OnPermissionCallback {
-
+    private class NeedPermissionCall(
+            private var mainActivity: MainActivity
+    ) : OnPermissionCallback {
         override fun onGranted(permissions: List<String>, all: Boolean) {
             if (all) {
                 mainActivity.toast("all permissions granted")
