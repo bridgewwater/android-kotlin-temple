@@ -3,6 +3,10 @@ package com.sinlov.kotlin.android.demo
 import android.app.Application
 import android.content.Context
 import com.hjq.toast.ToastUtils
+import com.sinlov.kotlin.android.demo.log.LoggerPrintTree
+import com.sinlov.temp.android.kts.system.AMLUtil
+import com.sinlov.temp.android.kts.system.PMSUtil
+import timber.log.Timber
 
 class MineApplication : Application() {
 
@@ -24,6 +28,14 @@ class MineApplication : Application() {
     }
 
     private fun initSDK(application: Application) {
+        // 按需日志打印
+        if (PMSUtil.selfDebugEnable(application)) {
+            Timber.plant(LoggerPrintTree())
+            Timber.tag("MineApplication")
+            Timber.d("just open log print")
+        }
+        AMLUtil.INSTANCE.init(this)
+        AMLUtil.INSTANCE.setDebug(true)
         ToastUtils.init(application)
     }
 }
