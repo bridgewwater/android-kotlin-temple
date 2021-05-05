@@ -15,7 +15,7 @@ import timber.log.Timber
  * <br/>
  * 在 Application 的声明周期 {@link Application#onCreate()} 中使用
  *
- * <pre>
+ * <pre class="prettyprint">
  *        // Activity 栈管理初始化，默认会读取 apk debug 状态，打开日志
  *        AMLUtil.INSTANCE.init(this)
  *
@@ -234,31 +234,35 @@ class AMLUtil : ActivityLifecycleCallbacks {
     }
 
     /**
-     * <br/>
      * 在 Application 的声明周期 {@link Application#onCreate()} 中使用
      *
-     * <pre>
+     * <code>
+     *
      *        // Activity 栈管理初始化，默认会读取 apk debug 状态，打开日志
      *        AMLUtil.INSTANCE.init(this)
      *
      *        // 也可以强制关闭 Debug
      *        AMLUtil.INSTANCE.setDebug(false)
      *
-     * </pre>
+     * </code>
      *
      * 功能
-     * <pre>
+     * <code>
      *        // 安全获取 application
      *        AMLUtil.INSTANCE.getApplication();
+     *
      *        // 获取当前栈顶 Activity
      *        AMLUtil.INSTANCE.getTopActivity()
+     *
      *        // 内存优化，销毁掉所有的界面
      *        AMLUtil.INSTANCE.finishAllActivities();
+     *
      *        // 内存优化，销毁除登录页之外的所有界面
      *        AMLUtil.INSTANCE.finishAllActivities(LoginActivity.class);
+     *
      *        // 判断当前应用是否处于前台状态
      *        AMLUtil.INSTANCE.isForeground()
-     * </pre>
+     * </code>
      */
     companion object {
         /**
