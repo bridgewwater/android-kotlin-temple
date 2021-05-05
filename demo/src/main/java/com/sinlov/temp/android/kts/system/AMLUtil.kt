@@ -246,7 +246,8 @@ class AMLUtil : ActivityLifecycleCallbacks {
      *
      * </code>
      *
-     * 功能
+     * == 功能 ==
+     *
      * <code>
      *        // 安全获取 application
      *        AMLUtil.INSTANCE.getApplication();
