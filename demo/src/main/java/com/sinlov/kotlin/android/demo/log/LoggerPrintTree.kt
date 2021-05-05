@@ -4,7 +4,7 @@ import android.os.Build
 import timber.log.Timber
 
 /**
- * </pre>
+ * Timeber 日志打印
  * Created by sinlov on 2021/5/6.
  */
 class LoggerPrintTree : Timber.DebugTree() {
