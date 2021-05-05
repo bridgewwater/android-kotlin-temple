@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity"
-    tools:viewBindingIgnore="false">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto">
 
-    <include
-        android:id="@+id/main_profile"
-        layout="@layout/main_profile" />
+    <data>
 
-</ScrollView>
+        <variable
+            name="appInfo"
+            type="com.sinlov.kotlin.android.demo.AppInfo" />
+
+        <variable
+            name="permission"
+            type="com.sinlov.kotlin.android.demo.PermissionViewModule" />
+
+    </data>
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context=".MainActivity"
+        tools:viewBindingIgnore="false">
+
+        <include
+            android:id="@+id/main_profile"
+            layout="@layout/main_profile"
+            binding:appInfo="@{appInfo}"
+            binding:permission="@{permission}" />
+
+    </ScrollView>
+</layout>
+

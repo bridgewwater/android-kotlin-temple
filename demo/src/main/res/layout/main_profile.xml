@@ -1,52 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <GridLayout
+    <data>
+
+        <variable
+            name="appInfo"
+            type="com.sinlov.kotlin.android.demo.AppInfo" />
+
+        <variable
+            name="permission"
+            type="com.sinlov.kotlin.android.demo.PermissionViewModule" />
+
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="4"
-        android:orientation="horizontal"
-        android:rowCount="6">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_init_check"
-            style="@style/Sinlov.Button.Menu"
-            android:layout_columnSpan="2"
-            android:layout_gravity="fill"
-            android:text="module init check" />
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="4"
+            android:orientation="horizontal"
+            android:rowCount="6">
 
-        <Button
-            android:id="@+id/btn_skip_to_module"
-            style="@style/Sinlov.Button.Menu"
-            android:layout_columnSpan="2"
-            android:layout_gravity="fill"
-            android:text="Skip to module" />
+            <Button
+                android:id="@+id/btn_init_check"
+                style="@style/Sinlov.Button.Menu"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:text="module init check" />
 
-        <Button
-            android:id="@+id/btn_skip_app_details"
-            style="@style/Sinlov.Button.Menu"
-            android:layout_columnSpan="2"
-            android:layout_gravity="fill"
-            android:text="skip app details" />
+            <Button
+                android:id="@+id/btn_skip_to_module"
+                style="@style/Sinlov.Button.Menu"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:text="Skip to module" />
 
-        <Button
-            android:id="@+id/btn_grant_permission"
-            style="@style/Sinlov.Button.Menu"
-            android:layout_columnSpan="2"
-            android:layout_gravity="fill"
-            android:text="grant permission" />
-    </GridLayout>
+            <Button
+                android:id="@+id/btn_skip_app_details"
+                style="@style/Sinlov.Button.Menu"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:onClick="@{()-> permission.startSelfApplicationDetails()}"
+                android:text="skip app details" />
 
+            <Button
+                android:id="@+id/btn_grant_permission"
+                style="@style/Sinlov.Button.Menu"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:onClick="@{()-> permission.requestFullPermission()}"
+                android:text="grant permission" />
+        </GridLayout>
 
-    <TextView
-        android:id="@+id/tv_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Test result will show at this"
-        android:textIsSelectable="true" />
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@{appInfo.baseInfo()}"
+            android:textIsSelectable="true"
+            android:textSize="12sp" />
 
-</LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="Test result will show at this"
+            android:textIsSelectable="true" />
+
+    </LinearLayout>
+</layout>
