@@ -100,45 +100,49 @@ subprojects {
 
         depends_android_x = [
                 // com.android.support:support-annotations https://mvnrepository.com/artifact/androidx.annotation/annotation
-                androidx_annotation                        : "androidx.annotation:annotation:${depends_android_x_annotation_version}",
+                androidx_annotation                              : "androidx.annotation:annotation:${depends_android_x_annotation_version}",
                 // https://mvnrepository.com/artifact/androidx.core/core
-                androidx_core_core                         : "androidx.core:core:${depends_android_x_core_version}",
+                androidx_core_core                               : "androidx.core:core:${depends_android_x_core_version}",
                 // https://mvnrepository.com/artifact/androidx.core/core-ktx
-                androidx_core_core_ktx                     : "androidx.core:core-ktx:${depends_android_x_core_version}",
+                androidx_core_core_ktx                           : "androidx.core:core-ktx:${depends_android_x_core_version}",
                 // com.android.support:multidex           https://mvnrepository.com/artifact/androidx.multidex/multidex
-                androidx_multidex                          : "androidx.multidex:multidex:2.0.1",
+                androidx_multidex                                : "androidx.multidex:multidex:2.0.1",
                 // com.android.support:multidex-instrumentation https://mvnrepository.com/artifact/androidx.multidex/multidex-instrumentation
-                androidx_multidex_instrumentation          : "androidx.multidex:multidex-instrumentation:2.0.0",
+                androidx_multidex_instrumentation                : "androidx.multidex:multidex-instrumentation:2.0.0",
                 // com.android.support.constraint:constraint-layout  https://mvnrepository.com/artifact/androidx.constraintlayout/constraintlayout
-                androidx_constraintlayout_constraintlayout : "androidx.constraintlayout:constraintlayout:2.0.4",
+                androidx_constraintlayout_constraintlayout       : "androidx.constraintlayout:constraintlayout:2.0.4",
                 // com.android.support:appcompat-v7       https://mvnrepository.com/artifact/androidx.appcompat/appcompat
-                androidx_appcompat                         : "androidx.appcompat:appcompat:${depends_android_x_appcompat_version}",
+                androidx_appcompat                               : "androidx.appcompat:appcompat:${depends_android_x_appcompat_version}",
                 // com.android.support:support-v4         https://mvnrepository.com/artifact/androidx.legacy/legacy-support-v4
-                androidx_legacy_support_v4                 : "androidx.legacy:legacy-support-v4:${depends_android_x_legacy_version}",
+                androidx_legacy_support_v4                       : "androidx.legacy:legacy-support-v4:${depends_android_x_legacy_version}",
                 // com.android.support:support-core-ui    https://mvnrepository.com/artifact/androidx.legacy/legacy-support-core-ui
-                androidx_legacy_support_core_ui            : "androidx.legacy:legacy-support-core-ui:${depends_android_x_legacy_version}",
+                androidx_legacy_support_core_ui                  : "androidx.legacy:legacy-support-core-ui:${depends_android_x_legacy_version}",
                 // com.android.support:support-core-utils https://mvnrepository.com/artifact/androidx.legacy/legacy-support-core-utils
-                androidx_legacy_support_core_utils         : "androidx.legacy:legacy-support-core-utils:${depends_android_x_legacy_version}",
+                androidx_legacy_support_core_utils               : "androidx.legacy:legacy-support-core-utils:${depends_android_x_legacy_version}",
                 // com.android.support:recyclerview-v7    https://mvnrepository.com/artifact/androidx.recyclerview/recyclerview
-                androidx_recyclerview                      : "androidx.recyclerview:recyclerview:${depends_android_x_recyclerview_version}",
+                androidx_recyclerview                            : "androidx.recyclerview:recyclerview:${depends_android_x_recyclerview_version}",
                 // com.android.support:cardview-v7        https://mvnrepository.com/artifact/androidx.cardview/cardview
-                androidx_cardview                          : "androidx.cardview:cardview:1.0.0",
+                androidx_cardview                                : "androidx.cardview:cardview:1.0.0",
                 // android.arch.lifecycle:common          https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-common
-                androidx_lifecycle_common                  : "androidx.lifecycle:lifecycle-common:${depends_android_x_lifecycle_version}",
+                // if using Java8, use the following instead of lifecycle-compiler
+                androidx_lifecycle_common                        : "androidx.lifecycle:lifecycle-common:${depends_android_x_lifecycle_version}",
                 // android.arch.lifecycle:runtime         https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-runtime
-                androidx_lifecycle_lifecycle_runtime       : "androidx.lifecycle:lifecycle-runtime:${depends_android_x_lifecycle_version}",
-                // android.arch.lifecycle:livedata         https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-livedata
-                androidx_lifecycle_lifecycle_livedata      : "androidx.lifecycle:lifecycle-livedata:${depends_android_x_lifecycle_version}",
-                // android.arch.lifecycle:viewmodel         https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-viewmodel
-                androidx_lifecycle_lifecycle_viewmodel     : "androidx.lifecycle:lifecycle-viewmodel:${depends_android_x_lifecycle_version}",
+                // Lifecycles only (without ViewModel or LiveData)
+                androidx_lifecycle_lifecycle_runtime             : "androidx.lifecycle:lifecycle-runtime:${depends_android_x_lifecycle_version}",
+                // android.arch.lifecycle:viewmodel       https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-viewmodel
+                androidx_lifecycle_lifecycle_viewmodel           : "androidx.lifecycle:lifecycle-viewmodel:${depends_android_x_lifecycle_version}",
+                // android.arch.lifecycle:livedata        https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-livedata
+                androidx_lifecycle_lifecycle_livedata            : "androidx.lifecycle:lifecycle-livedata:${depends_android_x_lifecycle_version}",
+                // lifecycle view model savedstate
+                androidx_lifecycle_lifecycle_viewmodel_savedstate: "androidx.lifecycle:lifecycle-viewmodel-savedstate:${depends_android_x_lifecycle_version}",
                 // android.arch.lifecycle:extensions      https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-extensions
-                androidx_lifecycle_lifecycle_extensions    : "androidx.lifecycle:lifecycle-extensions:${depends_android_x_lifecycle_version}",
+                androidx_lifecycle_lifecycle_extensions          : "androidx.lifecycle:lifecycle-extensions:${depends_android_x_lifecycle_version}",
                 // com.android.support:design             https://mvnrepository.com/artifact/com.google.android.material/material
-                com_google_android_material_material       : "com.google.android.material:material:1.2.1",
+                com_google_android_material_material             : "com.google.android.material:material:1.2.1",
                 // https://mvnrepository.com/artifact/androidx.navigation/navigation-fragment-ktx
-                androidx_navigation_navigation_fragment_ktx: "androidx.navigation:navigation-fragment-ktx:2.3.3",
+                androidx_navigation_navigation_fragment_ktx      : "androidx.navigation:navigation-fragment-ktx:2.3.3",
                 // https://mvnrepository.com/artifact/androidx.navigation/navigation-ui-ktx
-                androidx_navigation_navigation_ui_ktx      : "androidx.navigation:navigation-ui-ktx:2.3.3",
+                androidx_navigation_navigation_ui_ktx            : "androidx.navigation:navigation-ui-ktx:2.3.3",
         ]
 
         public_repo = [
@@ -175,8 +179,12 @@ subprojects {
         ]
 
         depends_kotlin = [
-                kotlin_stdlib     : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
-                kotlin_stdlib_jre7: "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.10",
+                kotlin_stdlib             : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+                kotlin_stdlib_jre7        : "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.10",
+                // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
+                kotlinx_coroutines_core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2",
+                // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-android
+                kotlinx_coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2",
         ]
 
         depends_old = [
