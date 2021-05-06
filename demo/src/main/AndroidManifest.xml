@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.sinlov.kotlin.android.demo.MainActivity">
+        <activity
+            android:name="com.sinlov.kotlin.android.demo.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

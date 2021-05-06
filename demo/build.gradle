@@ -123,6 +123,8 @@ dependencies {
     implementation depends_kotlin.kotlin_stdlib
     implementation depends_android_x.androidx_core_core_ktx
     implementation depends_android_x.androidx_legacy_support_v4,
+            depends_android_x.androidx_lifecycle_lifecycle_livedata,
+            depends_android_x.androidx_lifecycle_lifecycle_viewmodel,
             depends_android_x.androidx_appcompat,
 //            depends_android_x.androidx_recyclerview,
 //            depends_android_x.androidx_cardview,

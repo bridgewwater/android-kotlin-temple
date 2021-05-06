@@ -12,7 +12,6 @@ configurations.all {
 
 buildscript {
     repositories {
-//        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
         mavenCentral()
 //        jcenter()
         google()
@@ -36,7 +35,7 @@ buildscript {
 allprojects {
 
     repositories {
-        // for custom android repository
+        // for custom repository
 //        maven { url LIB_CUSTOM_ANDROID_REPOSITORY_URL }
 
         // for business repository
@@ -46,7 +45,6 @@ allprojects {
 //            maven { url REPO_SNAPSHOT_REPOSITORY_URL }
 //        }
         // public java and android repository
-//        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
         mavenCentral()
         // jcenter()
         google()
