@@ -35,7 +35,7 @@ class MineApplication : Application() {
             Timber.d("just open log print")
         }
         AMLUtil.INSTANCE.init(this)
-        AMLUtil.INSTANCE.setDebug(true)
+                .setDebug(true)
         ToastUtils.init(application)
     }
 }

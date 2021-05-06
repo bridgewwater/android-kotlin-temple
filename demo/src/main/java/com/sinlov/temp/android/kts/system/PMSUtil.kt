@@ -2,6 +2,7 @@ package com.sinlov.temp.android.kts.system
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 
 /**
  * PMS Util
@@ -17,6 +18,12 @@ class PMSUtil {
         @Volatile
         private var selfDebugCache = false
 
+        /**
+         * check out self is debug
+         *
+         * @param ctx [Context]
+         * @return AndroidManifest.xml debuggable
+         */
         fun selfDebugEnable(ctx: Context): Boolean {
             if (hasSelfDebugCheck) {
                 return selfDebugCache
@@ -34,6 +41,44 @@ class PMSUtil {
             return false
         }
 
+        /**
+         * get self version code
+         *
+         * @param ctx [Context]
+         * @return as AndroidManifest.xml application node android:versionCode
+         */
+        fun selfVersionCode(ctx: Context): Int {
+            var versionCode = 0
+            try {
+                versionCode = ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionCode
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+            }
+            return versionCode
+        }
+
+        /**
+         * get self version name
+         *
+         * @param ctx [Context]
+         * @return as AndroidManifest.xml application node android:versionName
+         */
+        fun selfVersionName(ctx: Context): String? {
+            var verName: String? = ""
+            try {
+                verName = ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+            }
+            return verName
+        }
+
+        /**
+         * get self label string
+         *
+         * @param ctx [Context]
+         * @return as AndroidManifest.xml application node android:label
+         */
         fun selfAppName(ctx: Context): String {
             if (ctx.packageManager != null) {
                 val packageInfo = ctx.packageManager.getPackageInfo(ctx.packageName, 0)

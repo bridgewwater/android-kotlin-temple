@@ -10,31 +10,31 @@ import androidx.collection.ArrayMap
 import timber.log.Timber
 
 /**
- * Activity Lifecycle 管理类
+ * Activity Lifecycle management
  *
  * <br/>
- * 在 Application 的声明周期 {@link Application#onCreate()} 中使用
+ * use at Application [Application#onCreate()] to init
  *
- * <pre class="prettyprint">
- *        // Activity 栈管理初始化，默认会读取 apk debug 状态，打开日志
+ * <pre>
+ *        // Activity stack management init, will open log which apk debuggable status is true
  *        AMLUtil.INSTANCE.init(this)
+ *           .setDebug(true)
  *
- *        // 也可以强制关闭 Debug
+ *        // can force close Debug
  *        AMLUtil.INSTANCE.setDebug(false)
  *
  * </pre>
- *
- * 功能
+ * function
  * <pre>
- *        // 安全获取 application
+ *        // safe way to get application
  *        AMLUtil.INSTANCE.getApplication();
- *        // 获取当前栈顶 Activity
+ *        // get top Activity
  *        AMLUtil.INSTANCE.getTopActivity()
- *        // 内存优化，销毁掉所有的界面
+ *        // memory optimization, destroy all activity
  *        AMLUtil.INSTANCE.finishAllActivities();
- *        // 内存优化，销毁除登录页之外的所有界面
+ *        // memory optimization, destroy all activity except LoginActivity.class
  *        AMLUtil.INSTANCE.finishAllActivities(LoginActivity.class);
- *        // 判断当前应用是否处于前台状态
+ *        // Determines whether the current application is in the foreground
  *        AMLUtil.INSTANCE.isForeground()
  * </pre>
  * Created by sinlov on 2021/5/6.
@@ -44,22 +44,22 @@ class AMLUtil : ActivityLifecycleCallbacks {
     private val mActivitySet = ArrayMap<String, Activity>()
 
     /**
-     * 当前应用上下文对象
+     * current application
      */
     private var mApplication: Application? = null
 
     /**
-     * 最后一个可见 Activity 标记
+     * tag of last Visible Activity
      */
     private var mLastVisibleTag: String? = null
 
     /**
-     * 最后一个不可见 Activity 标记
+     * tag of last Invisible Activity
      */
     private var mLastInvisibleTag: String? = null
 
     /**
-     * 当前是否在 Debug 模式
+     * flag of AMLUtil debug
      */
     private var isDebug = false
 
@@ -87,10 +87,10 @@ class AMLUtil : ActivityLifecycleCallbacks {
     }
 
 
-    fun init(application: Application): AMLUtil? {
+    fun init(application: Application): AMLUtil {
         mApplication = application
         mApplication!!.registerActivityLifecycleCallbacks(this)
-        // 默认情况会读取 Apk 是否在 Debug
+        // By default, it reads whether APK is DEBUG
         isDebug = this.isSelfDebug(application.applicationContext)
         return this
     }
@@ -108,7 +108,7 @@ class AMLUtil : ActivityLifecycleCallbacks {
     }
 
     /**
-     * 获取 Application 对象
+     * get current Application
      */
     fun getApplication(): Application? {
         checkInit()
@@ -116,7 +116,7 @@ class AMLUtil : ActivityLifecycleCallbacks {
     }
 
     /**
-     * 获取栈顶的 Activity
+     * get top Activity of visible
      */
     fun getTopActivity(): Activity? {
         checkInit()
@@ -125,7 +125,7 @@ class AMLUtil : ActivityLifecycleCallbacks {
 
 
     /**
-     * 判断当前应用是否处于前台状态, 通过最后一个 Activity 是否时记录的
+     * Determining whether the current application is in the foreground by recording the last visible activity
      */
     fun isForeground(): Boolean {
         checkInit()
@@ -138,7 +138,7 @@ class AMLUtil : ActivityLifecycleCallbacks {
     }
 
     /**
-     * 销毁所有的 Activity
+     * destroy all activity
      */
     fun finishAllActivities() {
         finishAllActivities((null as Class<out Activity?>?)!!)
@@ -146,7 +146,7 @@ class AMLUtil : ActivityLifecycleCallbacks {
 
 
     /**
-     * 销毁所有的 Activity，除这些 Class 之外的 Activity
+     * destroy all activity except classArray array
      */
     fun finishAllActivities(vararg classArray: Class<out Activity?>) {
         checkInit()
@@ -155,14 +155,12 @@ class AMLUtil : ActivityLifecycleCallbacks {
             val activity = mActivitySet[key]
             if (activity != null && !activity.isFinishing) {
                 var whiteClazz = false
-                if (classArray != null) {
-                    for (clazz in classArray) {
-                        if (activity.javaClass == clazz) {
-                            whiteClazz = true
-                        }
+                for (clazz in classArray) {
+                    if (activity.javaClass == clazz) {
+                        whiteClazz = true
                     }
                 }
-                // 如果不是白名单上面的 Activity 就销毁掉
+                // If the activity is not on the whitelist, destroy it
                 if (!whiteClazz) {
                     activity.finish()
                     mActivitySet.remove(key)
@@ -172,10 +170,10 @@ class AMLUtil : ActivityLifecycleCallbacks {
     }
 
     /**
-     * 获取一个对象的独立无二的标记, 同 object.getName() + Hex(object.hashCode())
+     * Gets a unique token for an object, as: object.getName() + Hex(object.hashCode())
      */
     private fun getObjectTag(`object`: kotlin.Any): kotlin.String? {
-        // 对象所在的包名 + 对象的内存地址
+        // The class full name + the memory address of hashcode
         return `object`.javaClass.name + java.lang.Integer.toHexString(`object`.hashCode())
     }
 
@@ -228,40 +226,43 @@ class AMLUtil : ActivityLifecycleCallbacks {
         mActivitySet.remove(getObjectTag(activity))
         mLastInvisibleTag = getObjectTag(activity)
         if (getObjectTag(activity) == mLastVisibleTag) {
-            // 清除当前标记
+            // clear the current flag
             mLastVisibleTag = null
         }
     }
 
     /**
-     * 在 Application 的声明周期 {@link Application#onCreate()} 中使用
+     * Activity Lifecycle management
+     *
+     * <br/>
+     * use at Application [Application#onCreate()] to init
      *
      * <code>
      *
-     *        // Activity 栈管理初始化，默认会读取 apk debug 状态，打开日志
+     *        // Activity stack management init, will open log which apk debuggable status is true
      *        AMLUtil.INSTANCE.init(this)
+     *           .setDebug(true)
      *
-     *        // 也可以强制关闭 Debug
+     *        // can force close Debug
      *        AMLUtil.INSTANCE.setDebug(false)
      *
      * </code>
-     *
-     * == 功能 ==
-     *
+     * function
      * <code>
-     *        // 安全获取 application
+     *
+     *        // safe way to get application
      *        AMLUtil.INSTANCE.getApplication();
      *
-     *        // 获取当前栈顶 Activity
+     *        // get top Activity
      *        AMLUtil.INSTANCE.getTopActivity()
      *
-     *        // 内存优化，销毁掉所有的界面
+     *        // memory optimization, destroy all activity
      *        AMLUtil.INSTANCE.finishAllActivities();
      *
-     *        // 内存优化，销毁除登录页之外的所有界面
+     *        // memory optimization, destroy all activity except LoginActivity.class
      *        AMLUtil.INSTANCE.finishAllActivities(LoginActivity.class);
      *
-     *        // 判断当前应用是否处于前台状态
+     *        // Determines whether the current application is in the foreground
      *        AMLUtil.INSTANCE.isForeground()
      * </code>
      */
