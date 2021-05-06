@@ -5,18 +5,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
 import com.hjq.permissions.OnPermissionCallback
-import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.sinlov.kotlin.android.demo.databinding.ActivityMainBinding
-import com.sinlov.kotlin.android.demo.databinding.MainProfileBinding
+import com.sinlov.kotlin.android.demo.model.AppInfo
+import com.sinlov.kotlin.android.demo.model.CommonBiz
+import com.sinlov.kotlin.android.demo.model.OnSkipAction
+import com.sinlov.kotlin.android.demo.model.PermissionViewModule
 import com.sinlov.temp.android.kts.AbsTemplateActivity
-import com.sinlov.temp.android.kts.utils.clipboardUtilsCopy2clipboard
-import com.sinlov.temp.android.kts.utils.clipboardUtilsItem
-import com.sinlov.temp.android.kts.viewmodel.CtxViewModelFactory
+import com.sinlov.temp.android.kts.utils.ClipboardUtils
+import com.sinlov.temp.android.kts.viewmodelfact.CtxViewModelFactory
+import timber.log.Timber
 
 /**
  * <pre>
@@ -46,37 +46,38 @@ class MainActivity : AbsTemplateActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun initView() {
-        val mainProfile = rootView.mainProfile
-        mainProfile.btnInitCheck.setOnClickListener {
-            toastBottom("module init check")
-        }
-        mainProfile.btnSkipToModule.setOnClickListener {
-//            toast("Skip to module: ${Plugin.instance.doBiz()}")
-            toast("Skip to module")
-        }
-        mainProfile.tvResult.setOnClickListener {
-            clipboardUtilsCopy2clipboard(this, mainProfile.tvResult.text.toString())
-            toast("copy at Clipboard")
-        }
-    }
-
-    override fun initData(savedInstanceState: Bundle?) {
         val b = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         b.lifecycleOwner = this
 
-        val appInfo = ViewModelProvider(this, CtxViewModelFactory(this)).get(AppInfo::class.java)
+        val appInfo = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(this.application))
+                .get(AppInfo::class.java)
         b.appInfo = appInfo
 
-        val permissionVM = ViewModelProvider(this, CtxViewModelFactory(this)).get(PermissionViewModule::class.java)
+        val permissionVM = ViewModelProvider(this, CtxViewModelFactory(this))
+                .get(PermissionViewModule::class.java)
         permissionVM.setPermissionCallback(NeedPermissionCall(this))
         b.permission = permissionVM
 
+        val commonBiz = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(this.application))
+                .get(CommonBiz::class.java)
+        commonBiz.onSkipAction(SkipAction())
+        b.commonBiz = commonBiz
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
     }
 
     override fun onResume() {
         super.onResume()
-        val clipboardUtils = clipboardUtilsItem(this, 0)
+        val clipboardUtils = ClipboardUtils.item(this, 0)
         Log.d(TAG, "onResume: clipboardUtilsLabel: $clipboardUtils")
+    }
+
+    class SkipAction : OnSkipAction {
+        override fun onSkipTestModule() {
+            super.onSkipTestModule()
+            Timber.d("this to skip test action")
+        }
     }
 
     private class NeedPermissionCall(

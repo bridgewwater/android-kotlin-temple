@@ -6,11 +6,15 @@
 
         <variable
             name="appInfo"
-            type="com.sinlov.kotlin.android.demo.AppInfo" />
+            type="com.sinlov.kotlin.android.demo.model.AppInfo" />
 
         <variable
             name="permission"
-            type="com.sinlov.kotlin.android.demo.PermissionViewModule" />
+            type="com.sinlov.kotlin.android.demo.model.PermissionViewModule" />
+
+        <variable
+            name="commonBiz"
+            type="com.sinlov.kotlin.android.demo.model.CommonBiz" />
 
     </data>
 
@@ -28,6 +32,7 @@
             android:id="@+id/main_profile"
             layout="@layout/main_profile"
             binding:appInfo="@{appInfo}"
+            binding:commonBiz="@{commonBiz}"
             binding:permission="@{permission}" />
 
     </ScrollView>

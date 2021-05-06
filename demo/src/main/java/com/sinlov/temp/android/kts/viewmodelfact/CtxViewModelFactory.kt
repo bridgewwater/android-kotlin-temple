@@ -1,4 +1,4 @@
-package com.sinlov.temp.android.kts.viewmodel
+package com.sinlov.temp.android.kts.viewmodelfact
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

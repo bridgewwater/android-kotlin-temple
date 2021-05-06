@@ -1,4 +1,4 @@
-package com.sinlov.kotlin.android.demo
+package com.sinlov.kotlin.android.demo.model
 
 import android.annotation.SuppressLint
 import android.content.Context

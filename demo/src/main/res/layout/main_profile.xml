@@ -5,11 +5,15 @@
 
         <variable
             name="appInfo"
-            type="com.sinlov.kotlin.android.demo.AppInfo" />
+            type="com.sinlov.kotlin.android.demo.model.AppInfo" />
 
         <variable
             name="permission"
-            type="com.sinlov.kotlin.android.demo.PermissionViewModule" />
+            type="com.sinlov.kotlin.android.demo.model.PermissionViewModule" />
+
+        <variable
+            name="commonBiz"
+            type="com.sinlov.kotlin.android.demo.model.CommonBiz" />
 
     </data>
 
@@ -30,6 +34,7 @@
                 style="@style/Sinlov.Button.Menu"
                 android:layout_columnSpan="2"
                 android:layout_gravity="fill"
+                android:onClick='@{()-> commonBiz.initCheck()}'
                 android:text="module init check" />
 
             <Button
@@ -37,6 +42,7 @@
                 style="@style/Sinlov.Button.Menu"
                 android:layout_columnSpan="2"
                 android:layout_gravity="fill"
+                android:onClick='@{()-> commonBiz.skipToTestModule()}'
                 android:text="Skip to module" />
 
             <Button
@@ -77,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:onClick='@{(View)->commonBiz.tvCopy2Clipboard(View)}'
             android:text="Test result will show at this"
             android:textIsSelectable="true" />
 

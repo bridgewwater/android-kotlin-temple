@@ -1,17 +1,17 @@
-package com.sinlov.kotlin.android.demo
+package com.sinlov.kotlin.android.demo.model
 
-import android.annotation.SuppressLint
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.sinlov.temp.android.kts.system.PMSUtil
 
 /**
  * Created by sinlov on 2021/5/6.
  */
-@SuppressLint("StaticFieldLeak")
-class AppInfo(private val context: Context) : ViewModel() {
+class AppInfo(
+        application: Application
+) : AndroidViewModel(application) {
 
     private val _name = MutableLiveData<String>()
 
@@ -19,7 +19,7 @@ class AppInfo(private val context: Context) : ViewModel() {
 
     val name: LiveData<String>
         get() {
-            _name.value = PMSUtil.selfAppName(context)
+            _name.value = PMSUtil.selfAppName(getApplication())
             return _name
         }
 
