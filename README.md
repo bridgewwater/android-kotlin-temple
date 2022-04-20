@@ -1,6 +1,6 @@
 # android-kotlin-temple
 
-for android temple of project write as java
+for android temple of project write as kotlin
 
 repo: [https://github.com/bridgewwater/android-kotlin-temple](https://github.com/bridgewwater/android-kotlin-temple)
 
