@@ -30,6 +30,6 @@ class PermissionViewModule(
     }
 
     fun startSelfApplicationDetails() {
-        XXPermissions.startApplicationDetails(context)
+        XXPermissions.startPermissionActivity(context)
     }
 }

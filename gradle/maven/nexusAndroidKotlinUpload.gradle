@@ -14,6 +14,9 @@ apply plugin: 'signing'
 apply plugin: 'org.jetbrains.dokka-android'
 
 def checkNexusModuleConfig() {
+    if (!project.plugins.hasPlugin('org.jetbrains.dokka-android')) {
+        throw new GradleException("Apply the dokka-android plugin in ${project.name}")
+    }
     String versionName = getVersionName()
     int versionCode = getVersionCode()
     String groupSet = getGroupSet()
@@ -98,10 +101,13 @@ boolean isStringEmpty(str) {
 }
 
 boolean isReleaseBuild() {
-    return VERSION_NAME.contains("SNAPSHOT") == false
+    return getVersionName().contains("SNAPSHOT") == false
 }
 
 String getVersionName() {
+    if (!isStringEmpty(System.getenv('NEXUS_VERSION_NAME'))) {
+        return System.getenv('NEXUS_VERSION_NAME')
+    }
     if (hasProperty('VERSION_NAME')) {
         return VERSION_NAME
     } else {
@@ -333,18 +339,24 @@ task javadoc(type: Javadoc) {
 
 
 dokka {
-    outputFormat = "javadoc"
-    outputDirectory = javadoc.destinationDir
+    // The fix
+//    outputFormat = "javadoc"
+//    outputDirectory = javadoc.destinationDir
 //    outputFormat = 'html'
 //    outputDirectory = "$buildDir/docs"
-    noStdlibLink = true
-    noJdkLink = true
-    noAndroidSdkLink = true
-    // The fix
 //    externalDocumentationLink {
 //        url = new URL("https://developer.android.com/reference/")
 //        packageListUrl = new URL("file:///${rootDir}/package-list")
 //    }
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/docs/kdoc"
+    sourceDirs = android.sourceSets.main.java.srcDirs
+//    externalDocumentationLink {
+//        url = new URL("http://reactivex.io/RxJava/2.x/javadoc/")
+//    }
+    noStdlibLink = true
+    noJdkLink = true
+    noAndroidSdkLink = true
 }
 
 task generateJavadoc(type: Jar, dependsOn: dokka) {

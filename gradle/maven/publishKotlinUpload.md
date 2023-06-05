@@ -1,4 +1,4 @@
-# nexus public utils of kotlin as android
+# Nexus public utils as kotlin
 
 ## config
 
@@ -16,7 +16,7 @@ buildscript {
 
 ## notes
 
-- use `nexusUpload` must after setting plugin
+- use `publishKotlinUpload` must after setting plugin
 - `only use in module build.gradle`
 - nexus must in `apply plugin: 'com.android.library'`
 - nexus Server `just has nexus server`
@@ -36,7 +36,6 @@ VERSION_CODE=1001001
 
 > `VERSION_NAME` is Very important!
 
-
 ## Setting Plugin
 
 In `root gradle.properties` edit
@@ -44,34 +43,28 @@ In `root gradle.properties` edit
 ```properties
 VERSION_NAME=1.1.1
 VERSION_CODE=1001001
-
 # Project comple set
-ANDROID_COMPILE_SDK_VERSION = 23
-ANDROID_BUILD_TOOLS_VERSION = 23.0.3
-ANDROID_MIN_SDK_VERSION = 15
-ANDROID_TARGET_SDK_VERSION = 15
-
+ANDROID_COMPILE_SDK_VERSION=23
+ANDROID_BUILD_TOOLS_VERSION=23.0.3
+ANDROID_MIN_SDK_VERSION=15
+ANDROID_TARGET_SDK_VERSION=15
 # important!
 GROUP=com.code.android
-
 # important!
 #NEXUS_USERNAME=
 #NEXUS_PASSWORD=
 #RELEASE_REPOSITORY_URL=
 #SNAPSHOT_REPOSITORY_URL = file:///Users/sinlov/Dowload/SNAPSHOT/mvn-repo/
-
-
 POM_DEVELOPER_ID=tianran
 POM_DEVELOPER_NAME=tianran <tianran@mail.com>
-
 POM_LICENCE_NAME=The commany Software License, Version 1.0
 POM_LICENCE_URL=http://www.keruyun.com//licenses/LICENSE-1.0.txt
 POM_LICENCE_DIST=repo
 POM_DESCRIPTION=
 ```
 
-
-> if VERSION_NAME contans SNAPSHOT this project will archive to snapshots which archive to releases not chants
+> if VERSION_NAME contans SNAPSHOT this project will archive to snapshots which archive to releases
+> not chants
 
 |key|for| desc                                                                                                                |
 |---|---|---------------------------------------------------------------------------------------------------------------------|
@@ -94,8 +87,6 @@ POM_DESCRIPTION=
 |POM_LICENCE_URL|licence url| URL of licence                                                                                                      |
 |POM_LICENCE_DIST|dist| dist of licence                                                                                                     |
 |POM_DESCRIPTION|description| description of this project                                                                                         |
-
-
 
 In `module gradle.properties` edit
 
@@ -122,7 +113,6 @@ POM_PACKAGING=aar
 
 In `module build.gradle` edit
 
-
 ```gradle
 android {
     compileSdkVersion ANDROID_COMPILE_SDK_VERSION as int
@@ -139,18 +129,22 @@ android {
 
 ...
 // uploadArchives
-apply from: rootProject.file("gradle/maven/nexusAndroidKotlinUpload.gradle")
+apply from: rootProject.file("gradle/maven/publishKotlinUpload.gradle")
 ```
 
 # nexus upload
 
+`publishToMavenLocal` will publish local maven `$HOME/.m2/repository/`
+
 run
 
-    $ gradlew uploadArchives
+    $ gradlew publishToMavenLocal
+    $ gradlew publish
 
 or
 
-    $ gradlew :[module]:uploadArchives
+    $ gradlew :[module]:publishToMavenLocal
+    $ gradlew :[module]:publish
 
-
-> if `VERSION_NAME contains SNAPSHOT` this project will archive to snapshots which archive to releases not chants
+> if `VERSION_NAME contains SNAPSHOT` this project will archive to snapshots which archive to
+> releases not chants

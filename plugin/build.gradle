@@ -2,15 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion ANDROID_COMPILE_SDK_VERSION as int
+    compileSdkVersion cfg_android["compileSdkVersion"]
+//    buildToolsVersion cfg_android["buildToolsVersion"]
 
     defaultConfig {
-        minSdkVersion ANDROID_MIN_SDK_VERSION as int
-        targetSdkVersion ANDROID_TARGET_SDK_VERSION as int
-        versionCode VERSION_CODE as int
-        versionName VERSION_NAME
-//        multiDexEnabled true
-        consumerProguardFiles "consumer-rules.pro"
+        minSdkVersion cfg_android["minSdkVersion"]
+        targetSdkVersion cfg_android["targetSdkVersion"]
+        //        multiDexEnabled true
     }
 
     lintOptions {
@@ -62,36 +60,36 @@ dependencies {
     // implementation fileTree(dir: 'libs', include: ['*.jar'])
     // test start
     // Junit
-    testImplementation test_depends.junit,
+    testImplementation test_depends["junit:junit"],
             // Mockito
-            test_depends.mockito_core,
+            test_depends["org.mockito:mockito-core"],
             // Robolectric
-            test_depends.robolectric,
-            test_depends.androidx_test_core,
+            test_depends["org.robolectric:robolectric"],
+            test_depends["androidx.test:core"],
             // deprecated
 //            test_depends.robolectric_shadows_support_v4,
             // EasyMock
-            test_depends.easymock,
+            test_depends["org.easymock:easymock"],
             // PowerMock
-            test_depends.powermock_core,
-            test_depends.powermock_module_junit4,
+            test_depends["org.powermock:powermock-core"],
+            test_depends["org.powermock:powermock-module-junit4"],
             // PowerMock + EasyMock extension
-            test_depends.powermock_api_easymock
+            test_depends["org.powermock:powermock-api-easymock"]
 
     //    androidTestCompile android_test_depends.robotium_solo
     // test end
 
-    implementation depends_kotlin.kotlin_stdlib
-    compileOnly depends_android_x.androidx_core_core_ktx
-    compileOnly depends_android_x.androidx_annotation
-//            depends_android_x.androidx_appcompat,
-//            depends_android_x.androidx_recyclerview,
-//            depends_android_x.androidx_cardview,
-//            depends_android_x.com_google_android_material_material,
-//            depends_android_x.androidx_legacy_support_v4
+    implementation depends_kotlin["org.jetbrains.kotlin:kotlin-stdlib"]
+    compileOnly depends_android_x["androidx.core:core-ktx"]
+    compileOnly depends_android_x["androidx.annotation:annotation"]
+//            depends_android_x["androidx.appcompat:appcompat"],
+//            depends_android_x["androidx.recyclerview:recyclerview"],
+//            depends_android_x["androidx.cardview:cardview"],
+//            depends_android_x["com.google.android.material:material"],
+//            depends_android_x["androidx.legacy:legacy-support-v4"]
 
-//    api depends_android_x.com_google_android_material_material,
-//            depends_android_x.androidx_appcompat
+//    api depends_android_x["com.google.android.material:material"],
+//            depends_android_x["androidx.appcompat:appcompat"]
 
     // you can use compileOnly for only compile
 //    compileOnly depends.gson
@@ -105,6 +103,6 @@ dependencies {
 // uploadArchives
 apply from: rootProject.file("gradle/maven/nexusAndroidKotlinUpload.gradle")
 // jacoco android library
-//apply from: rootProject.file("gradle/jacoco/jacoco-android-library.gradle")
+apply from: rootProject.file("gradle/jacoco/jacoco-android-library.gradle")
 // checkstyle android library
 //apply from: rootProject.file("gradle/checkstyle/checkstyle-android-library.gradle")

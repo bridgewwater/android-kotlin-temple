@@ -5,12 +5,19 @@
  *     task clean(type: Delete) {*          checkNexusModuleConfig()
  *          delete project.buildDir
  *}* </pre>
+ * https://docs.gradle.org/6.5/userguide/upgrading_version_5.html#legacy_publication_system_is_deprecated_and_replaced_with_the_publish_plugins
+ * Gradle 4.8 use maven-publish, and gradle 7.x remove maven
  */
 
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
+// https://plugins.gradle.org/plugin/org.jetbrains.dokka-android
+apply plugin: 'org.jetbrains.dokka-android'
 
 def checkNexusModuleConfig() {
+    if (!project.plugins.hasPlugin('org.jetbrains.dokka-android')) {
+        throw new GradleException("Apply the dokka-android plugin in ${project.name}")
+    }
     String versionName = getVersionName()
     int versionCode = getVersionCode()
     String groupSet = getGroupSet()
@@ -26,8 +33,8 @@ def checkNexusModuleConfig() {
     String pomLicenceDist = getPomLicenceDist()
     String pomDescription = getPomDescription()
     if (
-    isStringEmpty(versionName) || versionCode == 0 || isStringEmpty(groupSet) ||
-            isStringEmpty(pomArtifactId) || isStringEmpty(pomName)
+            isStringEmpty(versionName) || versionCode == 0 || isStringEmpty(groupSet) ||
+                    isStringEmpty(pomArtifactId) || isStringEmpty(pomName)
     ) {
         throw new IllegalArgumentException("checkNexusModuleConfig error, please check log!")
     } else {
@@ -45,7 +52,7 @@ def checkNexusModuleConfig() {
         sb.append(pomArtifactId)
         sb.append("\n\t pomName: ")
         sb.append(pomName)
-        if (!isStringEmpty(getRepositoryUsername())){
+        if (!isStringEmpty(getRepositoryUsername())) {
             sb.append("\n\t nexusName: ")
             sb.append(getRepositoryUsername())
         }
@@ -95,10 +102,13 @@ boolean isStringEmpty(str) {
 }
 
 boolean isReleaseBuild() {
-    return VERSION_NAME.contains("SNAPSHOT") == false
+    return getVersionName().contains("SNAPSHOT") == false
 }
 
 String getVersionName() {
+    if (!isStringEmpty(System.getenv('NEXUS_VERSION_NAME'))) {
+        return System.getenv('NEXUS_VERSION_NAME')
+    }
     if (hasProperty('VERSION_NAME')) {
         return VERSION_NAME
     } else {
@@ -184,7 +194,7 @@ String getPomPackaging() {
 }
 
 String getReleaseRepositoryUrl() {
-    if (!isStringEmpty(System.getenv('RELEASE_REPOSITORY_URL'))){
+    if (!isStringEmpty(System.getenv('RELEASE_REPOSITORY_URL'))) {
         return System.getenv('RELEASE_REPOSITORY_URL')
     } else {
         return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL : "https://oss.sonatype.org/service/local/staging/deploy/maven2"
@@ -193,7 +203,7 @@ String getReleaseRepositoryUrl() {
 }
 
 String getSnapshotRepositoryUrl() {
-    if (!isStringEmpty(System.getenv('SNAPSHOT_REPOSITORY_URL'))){
+    if (!isStringEmpty(System.getenv('SNAPSHOT_REPOSITORY_URL'))) {
         return System.getenv('SNAPSHOT_REPOSITORY_URL')
     } else {
         return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL : "https://oss.sonatype.org/content/repositories/snapshots"
@@ -201,7 +211,7 @@ String getSnapshotRepositoryUrl() {
 }
 
 String getRepositoryUsername() {
-    if (!isStringEmpty(System.getenv('NEXUS_USERNAME'))){
+    if (!isStringEmpty(System.getenv('NEXUS_USERNAME'))) {
         return System.getenv('NEXUS_USERNAME')
     } else {
         return hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
@@ -215,7 +225,7 @@ String getRepositoryUsername() {
 }
 
 String getRepositoryPassword() {
-    if (!isStringEmpty(System.getenv('NEXUS_PASSWORD'))){
+    if (!isStringEmpty(System.getenv('NEXUS_PASSWORD'))) {
         return System.getenv('NEXUS_PASSWORD')
     } else {
         return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
@@ -247,143 +257,111 @@ String getPomDescription() {
 }
 
 signing {
-    required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+    required { isReleaseBuild() && gradle.taskGraph.hasTask("publishing") }
     println 'Signing archives...'
     sign configurations.archives
 }
 
 afterEvaluate { project ->
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-//                beforeDeployment { MavenDeployment deployment ->
-//                    signing.signPom(deployment)
-//                }
-                pom.groupId = this.getGroupSet()
-                pom.artifactId = this.getPomArtifactId()
-                pom.version = this.getVersionName()
-                repository(url: this.getReleaseRepositoryUrl()) {
-                    authentication(userName: this.getRepositoryUsername(), password: this.getRepositoryPassword())
-                }
-                snapshotRepository(url: this.getSnapshotRepositoryUrl()) {
-                    authentication(userName: this.getRepositoryUsername(), password: this.getRepositoryPassword())
-                }
-                pom.project {
-                    name this.getPomName()
-                    groupId this.getGroupSet()
-                    artifactId this.getPomArtifactId()
-                    version this.getVersionName()
-                    packaging this.getPomPackaging()
-                    description this.getPomDescription()
-                    url this.getPomURL()
-
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = this.getGroupSet()
+                artifactId = this.getPomArtifactId()
+                version = this.getVersionName()
+                pom {
+                    url = this.getPomURL()
+                    groupId = this.getGroupSet()
+                    artifactId = this.getPomArtifactId()
+                    version = this.getVersionName()
+                    packaging = this.getPomPackaging()
+                    description = this.getPomDescription()
                     scm {
-                        url this.getPomURL()
-                        connection this.getPomSCMConnection()
-                        developerConnection this.getPomSCMDevConnection()
+                        url = this.getPomURL()
+                        connection = this.getPomSCMConnection()
+                        developerConnection = this.getPomSCMDevConnection()
                     }
 
                     developers {
                         developer {
-                            id this.getPomDeveloperId()
-                            name this.getPomDeveloperName()
+                            id = this.getPomDeveloperId()
+                            name = this.getPomDeveloperName()
+//                            email = this.getPomDeveloperEmail()
                         }
                     }
 
                     licenses {
                         license {
-                            name this.getPomLicenceName()
-                            url this.getPomLicenceUrl()
-                            distribution this.getPomLicenceDist()
+                            name = this.getPomLicenceName()
+                            url = this.getPomLicenceUrl()
+                            distribution = this.getPomLicenceDist()
                         }
                     }
                 }
             }
-            doLast {
-                println """=> uploadArchives success:
-repository url : ${this.isReleaseBuild() ? this.getReleaseRepositoryUrl() : this.getSnapshotRepositoryUrl()} 
-pom.groupId    : ${this.getGroupSet()}
-pom.artifactId : ${this.getPomArtifactId()}
-pom.version    : ${this.getVersionName()}
-gradle useage  : implementation "${this.getGroupSet()}:${this.getPomArtifactId()}:${this.getVersionName()}"
-"""
+        }
+        repositories {
+            maven {
+                def repo_url = this.isReleaseBuild() ? this.getReleaseRepositoryUrl() : this.getSnapshotRepositoryUrl()
+                url = repo_url
+                authentication {
+                    basic(BasicAuthentication)
+                }
+                credentials(PasswordCredentials) {
+                    username this.getRepositoryUsername()
+                    password this.getRepositoryPassword()
+                }
             }
         }
     }
-
-    task androidJavadocs(type: Javadoc) {
-        options {
-            encoding "UTF-8"
-            links "http://docs.oracle.com/javase/7/docs/api/"
-            linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
-        }
-        exclude '**/BuildConfig.java'
-        exclude '**/R.java'
-    }
-    task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-        classifier = 'javadoc'
-//        archiveClassifier = 'javadoc'
-        from androidJavadocs.destinationDir
-    }
-
-    task androidSourcesJar(type: Jar) {
-        classifier = 'sources'
-//        archiveClassifier = 'sources'
-        from android.sourceSets.main.java.sourceFiles
-    }
-
-    task makeReleaseJar(type: Jar, dependsOn: "bundleRelease") {
-        from file('build/intermediates/classes/release')
-        archiveFileName = "${project.name}.jar"
-        destinationDirectory = file('build/libs')
-
-        //exclude class
-        exclude "**/**/BuildConfig.class"
-        exclude "**/**/BuildConfig\$*.class"
-        exclude "**/R.class"
-        exclude "**/R\$*.class"
-
-        //include class
-//        include "com/test/**/*.class"
-    }
-
-    task androidrReleaseEclipse(type: Copy) {
-        from('build/intermediates/bundles/release/')
-        exclude 'build/intermediates/bundles/release/aapt'
-        into('build/eclipse/')
-        include('classes.jar')
-        include('res/')
-        include('jni/')
-        include('libs/')
-        include('aidl/')
-        include('assets/')
-        include('R.txt')
-        rename('classes.jar', "${project.name}-release.jar")
-    }
-
-    task androidReleaseEclipseZip(type: Zip, dependsOn: androidrReleaseEclipse) {
-        classifier = 'eclipse'
-        from "${project.buildDir}/eclipse/"
-    }
-
-    artifacts {
-        checkNexusModuleConfig()
-        archives androidSourcesJar
-        archives androidJavadocsJar
-//        archives androidReleaseEclipseZip
-        if (getPomPackaging().equals('jar')) {
-            archives makeReleaseJar
-            "${project.buildDir}/outputs/aar/${project.name}-release.aar"
-        } else if (getPomPackaging().equals('eclipse')) {
-            archives makeReleaseJar
-            archives androidReleaseEclipseZip
-            "${project.buildDir}/outputs/aar/${project.name}-release.aar"
-        } else {
-            "${project.buildDir}/outputs/aar/${project.name}-release.aar"
-        }
-    }
-
 }
+
+// kotlin source
+task generateSourcesJar(type: Jar) {
+    group = 'jar'
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+
+dokka {
+    // The fix
+//    outputFormat = "javadoc"
+//    outputDirectory = javadoc.destinationDir
+//    outputFormat = 'html'
+//    outputDirectory = "$buildDir/docs"
+//    externalDocumentationLink {
+//        url = new URL("https://developer.android.com/reference/")
+//        packageListUrl = new URL("file:///${rootDir}/package-list")
+//    }
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/docs/kdoc"
+    sourceDirs = android.sourceSets.main.java.srcDirs
+//    externalDocumentationLink {
+//        url = new URL("https://developer.android.com/reference/")
+//    }
+    noStdlibLink = true
+    noJdkLink = true
+    noAndroidSdkLink = true
+}
+
+task generateJavadoc(type: Jar, dependsOn: dokka) {
+    group = 'jar'
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives generateJavadoc
+    archives generateSourcesJar
+}
+
 
 ext {
     checkNexusModuleConfig = this.&checkNexusModuleConfig

@@ -7,15 +7,15 @@ repo: [https://github.com/bridgewwater/android-kotlin-temple](https://github.com
 ## env
 
 | item           | version |
-| :------------- | :------ |
+| :------------- |:--------|
 | jdk            | 1.8+    |
 | gradle         | 6.5+    |
-| android studio | 4.1.3  |
+| android studio | 4.1.3   |
 | com.android.tools.build:gradle | 4.1.3   |
-| android build tools | 30.0.5 |
-| android compile sdk | 30 |
-| android min sdk | 21 |
-| android target sdk | 26 |
+| android build tools | 30.0.5  |
+| android compile sdk | 30      |
+| android min sdk | 23      |
+| android target sdk | 26      |
 
 - library version
 
@@ -34,7 +34,7 @@ repo: [https://github.com/bridgewwater/android-kotlin-temple](https://github.com
 | junit:junit:                   | 4.12    |
 | org.robolectric:robolectric    | 4.4     |
 
-more version see [package.gradle](package.gradle)
+more version see [config.gradle](config.gradle)
 
 ## warning
 
