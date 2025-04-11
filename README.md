@@ -6,10 +6,11 @@ repo: [https://github.com/bridgewwater/android-kotlin-temple](https://github.com
 
 ## env
 
+> max `jdk version 1.11`, `android studio 2021`
 
 | item           | version |
 | :------------- |:--------|
-| jdk            | 1.11   |
+| jdk            | 1.8+    |
 | gradle         | 6.5+    |
 | com.android.tools.build:gradle | 4.1.3   |
 | android studio | 4.1.0+  |
