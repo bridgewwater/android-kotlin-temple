@@ -6,12 +6,13 @@ repo: [https://github.com/bridgewwater/android-kotlin-temple](https://github.com
 
 ## env
 
+
 | item           | version |
 | :------------- |:--------|
-| jdk            | 1.8+    |
+| jdk            | 1.11   |
 | gradle         | 6.5+    |
-| android studio | 4.1.3   |
 | com.android.tools.build:gradle | 4.1.3   |
+| android studio | 4.1.0+  |
 | android build tools | 30.0.5  |
 | android compile sdk | 30      |
 | android min sdk | 23      |
