@@ -62,9 +62,9 @@ android.applicationVariants.all { variant ->
 //            csv.enabled = false
             csv.required.set(true)
             xml.required.set(true)
-            xml.setDestination(file("${buildDir}/reports/jacoco/report.xml"))
+            xml.outputLocation.set(file("${buildDir}/reports/jacoco/report.xml"))
             html.required.set(true)
-            html.setDestination(file("$buildDir/reports/jacocoHtml"))
+            html.outputLocation.set(file("$buildDir/reports/jacocoHtml"))
         }
         def codeTree = fileTree(
                 dir: "$project.buildDir/intermediates/javac/${variantName}",

@@ -18,6 +18,9 @@ dep: pluginDependImplementation demoDependImplementation
 .PHONY: test
 test: pluginTestDebug demoTestDebug
 
+.PHONY: test.coverage
+test.coverage: pluginJacocoReportDebug
+
 .PHONY: assemble.debug
 assemble.debug: pluginAssembleDebug demoAssembleDebug
 
@@ -31,6 +34,7 @@ ci: ci.prepare test assemble.debug
 help: helpAndroidBase help-plugin help-demo
 	@echo ""
 	@echo "make dep                          ~> show all depend implementation"
+	@echo "make test.coverage                ~> run all test coverage"
 	@echo "make test                         ~> run all test"
 	@echo "make ci                           ~> run fast as CI"
 	@echo ""
