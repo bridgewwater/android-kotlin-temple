@@ -9,7 +9,8 @@ apply plugin: 'jacoco'
 //    }
 //}
 
-def jacoco_version = "0.8.6"
+// https://www.jacoco.org/jacoco/trunk/doc/changes.html
+def jacoco_version = "0.8.8"
 
 def excludes_base = [
         '**/R.class',

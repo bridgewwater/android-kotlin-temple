@@ -12,14 +12,14 @@ import java.lang.reflect.Constructor
  * Created by sinlov on 2021/5/6.
  */
 class CtxViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T & Any {
         try {
             for (constructor in modelClass.constructors) {
                 if (arrayOf(Context::class.java).contentEquals(constructor.parameterTypes)) {
-                    return (constructor as Constructor<T>).newInstance(context)
+                    return (constructor as Constructor<T>).newInstance(context)!!
                 }
             }
-            return modelClass.newInstance()
+            return modelClass.newInstance()!!
         } catch (e: InstantiationException) {
             throw RuntimeException("Cannot create an instance of $modelClass", e)
         } catch (e: IllegalAccessException) {

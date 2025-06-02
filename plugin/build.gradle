@@ -19,18 +19,20 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11.toString()
+        targetCompatibility JavaVersion.VERSION_11.toString()
         encoding "UTF-8"
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     testOptions {
         unitTests {
             includeAndroidResources = true
+            all {
+            }
         }
     }
 
@@ -101,8 +103,9 @@ dependencies {
 }
 
 // uploadArchives
-apply from: rootProject.file("gradle/maven/nexusAndroidKotlinUpload.gradle")
+apply from: rootProject.file("gradle/maven/publishUpload.gradle")
 // jacoco android library
+// bug Unsupported class file major version 61 close must use robolectric 4.11.1
 apply from: rootProject.file("gradle/jacoco/jacoco-android-library.gradle")
 // checkstyle android library
 //apply from: rootProject.file("gradle/checkstyle/checkstyle-android-library.gradle")

@@ -5,18 +5,27 @@ ifndef ANDROID_HOME
 	exit 1
 endif
 
+.PHONY: env
+env:
+	@echo "================ env start ================"
+	@echo "ROOT_PWD                         ${ROOT_PWD}"
+	@echo "ENV_GRADLE_WRAPPER_EXEC          ${ENV_GRADLE_WRAPPER_EXEC}"
+	@echo "================ env end ================"
+	@echo ""
+	${ENV_GRADLE_WRAPPER_EXEC} --version
+
 # init this project
 .PHONY: init
 init:
-	@$(ROOT_PWD)/gradlew clean buildEnvironment --warning-mode all
+	@${ENV_GRADLE_WRAPPER_EXEC} clean buildEnvironment --warning-mode all
 
 .PHONY: cleanRoot
 cleanRoot:
-	$(ROOT_PWD)/gradlew clean
+	${ENV_GRADLE_WRAPPER_EXEC} clean
 
 .PHONY: cleanGradleBuildAndIdea
 cleanGradleBuildAndIdea:
-	$(ROOT_PWD)/gradlew clean cleanBuildCache cleanIdea
+	${ENV_GRADLE_WRAPPER_EXEC} clean cleanBuildCache cleanIdea
 
 .PHONY: adbCrash
 adbCrash: checkEnvAndroidHome
