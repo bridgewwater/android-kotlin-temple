@@ -13,7 +13,8 @@ repo: [https://github.com/bridgewwater/android-kotlin-temple](https://github.com
 | jdk                                       | 1.11+   |
 | gradle                                    | 7.2     |
 | com.android.tools.build:gradle            | 7.1.3   |
-| org.jetbrains.kotlin:kotlin-gradle-plugin | 1.7.22  |
+| org.jetbrains.kotlin:kotlin-gradle-plugin | 1.6.21  |
+| org.jetbrains.kotlin:kotlin-stdlib        | 1.6.21  |
 | android studio                            | 2024.3  |
 | android build tools                       | 30.0.5  |
 | android compile sdk                       | 30      |

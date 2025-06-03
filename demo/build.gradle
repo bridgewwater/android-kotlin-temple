@@ -51,8 +51,10 @@ android {
     }
 
     kotlinOptions {
+        languageVersion = "1.7"
         jvmTarget = JavaVersion.VERSION_11
         freeCompilerArgs = ['-Xjvm-default=compatibility']
+//        freeCompilerArgs = ['-Xjvm-default=all-compatibility']
     }
 
     signingConfigs {
@@ -125,6 +127,7 @@ dependencies {
 
     // implementation base
     implementation depends_kotlin["org.jetbrains.kotlin:kotlin-stdlib"]
+    implementation depends_kotlin["org.jetbrains.kotlin:kotlin-stdlib-jdk7"]
     implementation depends_android_x["androidx.core:core-ktx"]
 
     implementation depends_android_x["androidx.annotation:annotation"],
