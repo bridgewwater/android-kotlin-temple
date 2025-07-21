@@ -44,7 +44,7 @@ interface TempKeyboardAction {
     @JvmDefault
     fun hideKeyboard(view: View?) {
         if (view == null) {
-            NullPointerException("hideKeyboard as Null View").printStackTrace()
+//            NullPointerException("hideKeyboard as Null View").printStackTrace()
             return
         }
         val manager = view.context

@@ -3,6 +3,8 @@
 !gradle.properties
 
 ### Android template
+*.hprof
+
 # Built application files
 #*.apk
 *.ap_

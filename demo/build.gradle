@@ -53,7 +53,7 @@ android {
     kotlinOptions {
         languageVersion = "1.7"
         jvmTarget = JavaVersion.VERSION_11
-        freeCompilerArgs = ['-Xjvm-default=compatibility']
+        freeCompilerArgs = ['-Xjvm-default=all']
 //        freeCompilerArgs = ['-Xjvm-default=all-compatibility']
     }
 

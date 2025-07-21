@@ -1,15 +1,18 @@
 package com.sinlov.kotlin.android.demo
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
-import test.RoboKtTemp
+import test.RoboActKtTemp
 
 
-public class ExampleUnitKtTest : RoboKtTemp() {
+class ExampleUnitKtTest : RoboActKtTemp() {
     @org.junit.Test
-    public fun addition_isCorrect() {
+    fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+        assertNotEquals(4, 2 + 1)
 
         assertNotNull(CTX_APP)
+        assertNotNull(APPLICATION)
     }
 }
