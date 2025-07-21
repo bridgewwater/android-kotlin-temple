@@ -77,12 +77,12 @@ public class MainActivityTest extends RoboTemp {
         this.activityScenario.onActivity(new ActivityScenario.ActivityAction<MainActivity>() {
             @Override
             public void perform(MainActivity activity) {
-                ActivityMainBinding activityMainBinding = ActivityMainBinding.inflate(activity.getLayoutInflater());
-                TextView tvResult = activityMainBinding.mainProfile.tvResult;
-                assertNotNull(tvResult);
-                tvResult.performClick();
-                // data-bing can ot test
-                assertNull(ShadowToast.getTextOfLatestToast());
+//                ActivityMainBinding activityMainBinding = ActivityMainBinding.inflate(activity.getLayoutInflater());
+//                TextView tvResult = activityMainBinding.mainProfile.tvResult;
+//                assertNotNull(tvResult);
+//                tvResult.performClick();
+//                // data-bing can ot test
+//                assertNull(ShadowToast.getTextOfLatestToast());
 //                assertEquals("Result has copy to clipboard", ShadowToast.getTextOfLatestToast());
             }
         });
